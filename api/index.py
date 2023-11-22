@@ -11,7 +11,7 @@ def getdata(name):
     data = gitpage.text
     datadatereg = re.compile(r'data-date="(.*?)" data-level')
 
-    datacountreg = re.compile(r'<tool-tip .*?class="sr-only position-absolute">(.*?) contributions')
+    datacountreg = re.compile(r'<tool-tip .*?class="sr-only position-absolute">(.*?) contribution')
     datadate = datadatereg.findall(data)
     datacount = datacountreg.findall(data)
     datacount = list(map(int, [0 if i == "No" else i for i in datacount]))
