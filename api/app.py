@@ -1,11 +1,13 @@
 # -*- coding: UTF-8 -*-
-import requests
 import re
-from http.server import BaseHTTPRequestHandler
-import json
+import requests
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
 
 def list_split(items, n):
     return [items[i:i + n] for i in range(0, len(items), n)]
+
 def getdata(name):
     headers = {
         'Referer': 'https://github.com/' + name,
@@ -45,14 +47,12 @@ def getdata(name):
         "contributions": datalistsplit
     }
     return returndata
-class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        path = self.path
-        user = path.split('?')[1]
-        data = getdata(user)
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps(data).encode('utf-8'))
-        return
+
+@app.route('/api', methods=['GET'])
+def get_data_route():
+    username = request.args.get('user')
+    data = getdata(username)
+    return jsonify(data)
+
+if __name__ == '__main__':
+    app.run(debug=True)
