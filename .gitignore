@@ -1,2 +1,5 @@
 .vercel
 werkzeug*
+venv
+app.py
+.idea
