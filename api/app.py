@@ -52,7 +52,16 @@ def getdata(name):
 def get_data_route():
     username = request.args.get('user')
     data = getdata(username)
-    return jsonify(data)
+    response = jsonify(data)
+    
+    # 允许任意域名访问
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    
+    # 可以根据需要设置其他允许的请求头和方法
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST')
+    
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
