@@ -53,6 +53,9 @@ def get_data_route():
     username = request.args.get('user')
     data = getdata(username)
     response = jsonify(data)
+
+    if not username:
+        return jsonify({"error": "username parameter is required"}), 400  # 如果没有提供 username 参数，返回错误信息
     
     # 允许任意域名访问
     response.headers.add('Access-Control-Allow-Origin', '*')
